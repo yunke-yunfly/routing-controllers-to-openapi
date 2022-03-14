@@ -1,0 +1,19 @@
+node_modules
+/npm-debug.log*
+/yarn-error.log
+dist
+openapi
+
+# misc
+.DS_Store
+
+
+# ide
+/.vscode
+/.idea
+
+# test
+coverage
+
+.eslintcache
+

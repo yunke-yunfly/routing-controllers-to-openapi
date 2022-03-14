@@ -1,0 +1,12 @@
+digraph G {
+    splines="FALSE";
+
+    /* Entities */
+    shortName [label="shortName", shape="square"]
+    
+    /* Relationships */
+    F1 -> shortName[label=".63"]
+
+    /* Ranks */
+    { rank=same; shortName; };
+}
