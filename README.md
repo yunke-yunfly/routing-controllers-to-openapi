@@ -1833,10 +1833,6 @@ async test(
 <br/>
 
 
-## keywords
-
-`openapi`, `openapiv3`, `jsonschema`, `routing-controllers`, `nest`
-
 ## 贡献
 
 我们非常欢迎您的贡献，您可以通过以下方式与我们共建。
