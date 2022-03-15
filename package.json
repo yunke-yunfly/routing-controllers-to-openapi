@@ -23,7 +23,7 @@
     "test": "cross-env TEST_ENV=test JEST=true umi-test",
     "test:watch": "cross-env TEST_ENV=test JEST=true umi-test --watch",
     "test:coverage": "cross-env TEST_ENV=test umi-test --coverage",
-    "send-coverage": "codecov -f coverage/*.json",
+    "send-coverage": "cross-env codecov -f coverage/*.json",
     "ci": "yarn tsc --noEmit && yarn lint:all && yarn spell-check:all && yarn test",
     "lint:all": "yarn eslint --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "spell-check:all": "cspell \"**/*.{txt,ts,tsx,js,json,md}\"",
