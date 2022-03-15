@@ -92,12 +92,8 @@ export function genOpenapiv3(
 function genInfo(): Openapiv3Info {
   return {
     title: getPackageJson().name || 'bff-yundoc',
-    description: 'BFF端生成Api文档，并对接到middleman平台。',
+    description: 'Buildtime OpenAPI v3 spec generation for routing-controllers',
     version: '1.0.0',
-    contact: {
-      name: 'zane',
-      email: 'wangw19@mingyuanyun.com',
-    },
   };
 }
 

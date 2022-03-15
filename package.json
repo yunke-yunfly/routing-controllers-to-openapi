@@ -6,7 +6,7 @@
   "repository": "https://github.com/yunke-yunfly/routing-controllers-to-openapi",
   "author": "zane <wangw19@mingyuanyun.com>",
   "bin": {
-    "yundoc": "./bin/index.js"
+    "openapi": "./bin/index.js"
   },
   "license": "MIT",
   "keywords": [
