@@ -19,14 +19,14 @@ yarn add routing-controllers-to-openapi --dev
 
 ```js
 "scripts": {
-  "openapi": "openapi",
+  "gen-openapi": "gen-openapi",
 }
 ```
 
 ### 3. 生成openapi数据
 
 ```js
-yarn openapi
+yarn gen-openapi
 ```
 
 ## 案例
@@ -739,9 +739,9 @@ async test(): Promise: <null>,                         // null类型 它将被�
 
 ### * Response 使用外层传入的Schema 嵌套
 
-大多数情况下我们的BFF框架，对`controller返回类型会做一个公共的处理`，例如yunfly的ResponseMiddleware, 因此没有很好办法获取到准确的返回外层信息。 <br/>
+某些情况下routing-controllers搭建的Node框架，对`controller返回类型会做一个公共的处理`, 因此没有很好办法获取到准确的返回外层信息。 <br/>
 
-因此在`yunke.config.js`中提供了`responseSchema`参数 [responseSchema详细配置说明](#使用)，来进行自定义的外层包裹。
+在`yunke.config.js`中提供了`responseSchema`参数 [responseSchema详细配置说明](#使用)，来进行自定义的外层包裹。
 
 ### * 目前只支持成功状态下的type类型解析
 
@@ -982,7 +982,7 @@ interface BBB {
 }
 interface CCC {
     attr6: string;
-    attr7?: strting;
+    attr7?: string;
 }
 interface AAA {
     attr1: string;
@@ -1024,7 +1024,7 @@ interface AAA {
 
 @Get('/test')
 async test(
-    @QueryParams() patams: AAA;
+    @QueryParams() parames: AAA;
     @QueryParam("name",{required: true}) name: string,
     @QueryParam("age") age: number,
 ): Promise<{name: string}> {}
@@ -1365,7 +1365,7 @@ interface SomeInterface {
 ```ts
 interface A {
   name: string;
-  arrr: B;
+  attr: B;
 }
 interface B {
   name1: string;
@@ -1395,13 +1395,13 @@ interface SomeInterface {
         "name": {
           "type": "string"
         },
-        "arrr": {
+        "attr": {
           "$ref": "#/definitions/B"
         }
       },
       "required": [
         "name",
-        "arrr"
+        "attr"
       ]
     },
     "B": {
@@ -1557,7 +1557,7 @@ interface SomeInterface {
 ```ts
 interface A {
   name: string;
-  arrr: B;
+  attr: B;
 }
 interface B {
   name1: string;
@@ -1627,13 +1627,13 @@ interface SomeInterface {
         "name": {
           "type": "string"
         },
-        "arrr": {
+        "attr": {
           "$ref": "#/definitions/B"
         }
       },
       "required": [
         "name",
-        "arrr"
+        "attr"
       ]
     },
     "B": {
@@ -1659,7 +1659,7 @@ export namespace NameSpaceParent {
     export namespace NameSpacechildren {
       export interface A {
         name: string;
-        arrr: NameSpaceParent.NameSpacechild.NameSpacechildren.B;
+        attr: NameSpaceParent.NameSpacechild.NameSpacechildren.B;
       }
       export interface B {
         name1: string;
@@ -1731,13 +1731,13 @@ interface SomeInterface {
         "name": {
           "type": "string"
         },
-        "arrr": {
+        "attr": {
           "$ref": "#/definitions/NameSpaceParent.NameSpacechild.NameSpacechildren.B"
         }
       },
       "required": [
         "name",
-        "arrr"
+        "attr"
       ]
     },
     "NameSpaceParent.NameSpacechild.NameSpacechildren.B": {
@@ -1791,7 +1791,7 @@ async test(
 ): Promise<{name: string}> {}
 ```
 
-此种情况下，解析器并不知道你需要把 `name` 定义为什么类型， 因此只能解析为`object`类型， 但从逻辑层面来讲，`@QueryParam` 本身就应该是简单的基础类型，不应该为`obejct`类型， 这会给查看该接口的人带来困惑。
+此种情况下，解析器并不知道你需要把 `name` 定义为什么类型， 因此只能解析为`object`类型， 但从逻辑层面来讲，`@QueryParam` 本身就应该是简单的基础类型，不应该为`object`类型， 这会给查看该接口的人带来困惑。
 
 <br/>
 
