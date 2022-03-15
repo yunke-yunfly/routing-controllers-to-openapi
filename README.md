@@ -1,5 +1,9 @@
 # routing-controllers-to-openapi
 
+[![npm version](https://img.shields.io/npm/v/fast-typescript-to-jsonschema.svg)](https://www.npmjs.com/package/fast-typescript-to-jsonschema) 
+![Test](https://github.com/yunke-yunfly/fast-typescript-to-jsonschema/workflows/Test/badge.svg)
+[![codecov](https://codecov.io/gh/yunke-yunfly/routing-controllers-to-openapi/branch/master/graph/badge.svg)](https://codecov.io/gh/yunke-yunfly/routing-controllers-to-openapi)
+
 routing-controllers项目构建时生成 openapi v3 schema。 <br/>
 通过TS文件生成`AST语法树`，分析AST语法树生成`openapiv3`数据。进而导入到`postman`、`swagger` 等平台进行数据展示。
 
