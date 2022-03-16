@@ -60,7 +60,7 @@ export async function genOpenapiv3FromRoutingControllers(options: AnyOption = {}
 
   return {
     isCheck,
-    openapi: result
+    result
   };
 }
 
