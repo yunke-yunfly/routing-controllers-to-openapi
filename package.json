@@ -1,10 +1,11 @@
 {
   "name": "routing-controllers-to-openapi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": "https://github.com/yunke-yunfly/routing-controllers-to-openapi",
   "author": "zane <wangw19@mingyuanyun.com>",
+  "description": "Buildtime OpenAPI v3 spec generation for routing-controllers.",
   "bin": {
     "gen-openapi": "./bin/index.js"
   },
