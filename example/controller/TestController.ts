@@ -1,30 +1,37 @@
-
-import * as jarviseServiceTypes from '../grpc-code-gen/yk-basis/jarvis-service/types';
-import { ProjectData } from './type';
-
+import { HeaderParam, JsonController, BodyParam, Post } from 'routing-controllers';
+export interface Response {
+  // code返回码
+  code: number;
+  // 返回信息
+  message: string;
+}
 
 /**
- * 描述1
+ * 测试案例controller
+ *
  * @export
  * @class TestController
  */
-@JsonController('/test')
-// @UseBefore(AuthoMiddleware(authoMiddlewareConfigs))
-export default class TestController {
-  @Post('/get-user-info')
-  async getUserInfo(
-    @Param('id') id: number,
-    // @BodyParam('rule') rule: jarviseServiceTypes.jarvis_service.FlowRuleEntry
-    // @QueryParams() params: GetProjectHouseTypeListRequest,
-    // @QueryParam("user_id") userId: number=1,
-    // @Body() body: {name: string},
-    // @BodyParam('enum_') enum_: Label
-  ): Promise<ProjectData[]> {
-
-    return '';
+@JsonController('/example')
+export default class ExampleController {
+  /**
+   * do something
+   *
+   * @param {string} orgcode 租户号
+   * @param {string} name 姓名
+   * @param {number} age 年龄
+   * @returns {Promise<Response>}
+   * @memberof ExampleController
+   */
+  @Post('/test')
+  async getTest(
+    @HeaderParam('orgcode') orgcode: string,
+    @BodyParam('name') name: string,
+    @BodyParam('age') age: number,
+  ): Promise<Response> {
+    return {
+      code: 0,
+      message: 'success'
+    }
   }
-
-
 }
-
-
