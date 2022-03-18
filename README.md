@@ -270,6 +270,18 @@ responseSchema`严格遵循JsonSchema数据格式`
 
 [支持的类型解析列表](DOCS.md)
 
+
+
+## example 案例
+
+```js
+git clone https://github.com/yunke-yunfly/routing-controllers-to-openapi.git
+cd routing-controllers-to-openapi
+yarn install
+yarn build
+yarn example
+```
+
 ## 贡献
 
 我们非常欢迎您的贡献，您可以通过以下方式与我们共建。
