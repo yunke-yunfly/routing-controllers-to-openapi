@@ -27,7 +27,7 @@
     "send-coverage": "cross-env codecov -f coverage/*.json",
     "ci": "yarn tsc --noEmit && yarn lint:all && yarn spell-check:all && yarn test",
     "lint:all": "yarn eslint --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
-    "spell-check:all": "cspell \"**/*.{txt,ts,tsx,js,json,md}\"",
+    "spell-check:all": "cspell \"**/*.{txt,ts,tsx,js,md}\"",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\"",
     "example": "yarn build && cross-env TEST_ENV=test node ./example/test.js"
