@@ -30,7 +30,7 @@
     "spell-check:all": "cspell \"**/*.{txt,ts,tsx,js,json,md}\"",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\"",
-    "example": "cross-env TEST_ENV=test node ./example/test.js"
+    "example": "yarn build && cross-env TEST_ENV=test node ./example/test.js"
   },
   "engines": {
     "node": ">=10.0.0"

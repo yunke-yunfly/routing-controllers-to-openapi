@@ -58,7 +58,7 @@ export function genOpenapiv3(
   data: GenOpenapiv3Config[],
   option?: GenOpenApiOption,
 ): Openapiv3Response {
-  const { routePrefix = '', servers, responseSchema } = option || {};
+  const { routePrefix, servers, responseSchema } = option as GenOpenApiOption;
   const info = genInfo();
   const tags = genTags(data);
   const { paths, schemas } = genPaths(data, routePrefix, responseSchema);
@@ -91,7 +91,7 @@ export function genOpenapiv3(
  */
 function genInfo(): Openapiv3Info {
   return {
-    title: getPackageJson().name || 'bff-yundoc',
+    title: getPackageJson().name,
     description: 'Buildtime OpenAPI v3 spec generation for routing-controllers',
     version: '1.0.0',
   };

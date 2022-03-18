@@ -1,7 +1,6 @@
 import * as path from 'path';
-
-import * as _ from 'lodash';
-
+import _ from 'lodash';
+import { strict as assert } from 'assert';
 import type { AnyOpt, InterfaceConfig, InterfaceSchema, InterfaceServers, Openapiv3Config, PropertiesConfigItem } from './types';
 import { genTsApiDoc, openapiValidate } from '.';
 import type { AnyOption } from 'fast-typescript-to-jsonschema/dist/types';
@@ -29,8 +28,12 @@ export function genOpenapiv3Files(openapiv3: Openapiv3Config, outfile: string) {
 export async function genOpenapiv3FromRoutingControllers(options: AnyOption = {}) {
   console.log(chalk.blue('\r\n### -------- Yundoc: 开始执行生成api文档数据。---------\r\n'));
   const begin = Date.now();
+
   const config = getConfig();
-  const { routePrefix, controllers, responseSchema, servers, filterFiles, outfile, requiredType } = config || {};
+  // config 配置验证
+  verificationDefaultConfig(config);
+
+  const { routePrefix, controllers, responseSchema, servers, filterFiles, outfile, requiredType } = config;
 
   // responseSchema 参数校验
   verificationResponseSchema(responseSchema);
@@ -53,10 +56,10 @@ export async function genOpenapiv3FromRoutingControllers(options: AnyOption = {}
   console.log(chalk.blue(`\r\n### ----- Yundoc: openapiv3数据生成成功, 整体耗时: ${consuming}。-----\r\n`))
 
   // openapiv3数据验证
-  const isCheck = await openapiValidate(_.cloneDeep(result.openapiv3 || {}));
+  const isCheck = await openapiValidate(_.cloneDeep(result.openapiv3));
 
   // 写入文件
-  genOpenapiv3Files(result.openapiv3 || {}, outfile);
+  genOpenapiv3Files(result.openapiv3, outfile);
 
   return {
     isCheck,
@@ -75,19 +78,25 @@ export function verificationResponseSchema(responseSchema?: InterfaceSchema): bo
   if (!responseSchema) {
     return true;
   }
-  if (Object.prototype.toString.call(responseSchema) !== '[object Object]') {
-    throw Error(`responseSchema参数必须为对象！`);
-  }
+
+  assert.equal(
+    Object.prototype.toString.call(responseSchema) !== '[object Object]',
+    false,
+    'responseSchema参数必须为对象!'
+  )
 
   if (responseSchema && !Object.keys(responseSchema).length) {
     return true;
   }
 
-  const { type, properties, required } = responseSchema || {};
+  const { type, properties, required } = responseSchema;
 
-  if (type !== 'object') {
-    throw Error(`responseSchema.type 值必须为object！`);
-  }
+  assert.equal(
+    type !== 'object',
+    false,
+    'responseSchema.type 值必须为object!'
+  )
+
 
   if (
     !properties ||
@@ -100,7 +109,7 @@ export function verificationResponseSchema(responseSchema?: InterfaceSchema): bo
   Object.keys(properties).forEach((item: string) => {
     const propItem: PropertiesConfigItem = properties[item];
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const { type, $ref } = propItem || {};
+    const { type, $ref } = propItem;
     if (!type && !$ref) {
       throw Error(`responseSchema.properties 中每个item必须包含type或者$ref中的一个字段！`);
     }
@@ -135,13 +144,17 @@ export function verificationServers(servers?: InterfaceServers[]): boolean {
     return true;
   }
 
-  if (servers && !Array.isArray(servers)) {
-    throw Error(`servers参数必须为数组类型！`);
-  }
+  assert.equal(
+    servers && !Array.isArray(servers),
+    false,
+    'servers参数必须为数组类型!'
+  )
 
-  if (servers && !servers.length) {
-    throw Error(`servers参数不能为空数组！`);
-  }
+  assert.equal(
+    servers && !servers.length,
+    false,
+    'servers参数不能为空数组!'
+  )
 
   servers.forEach((item: InterfaceServers) => {
     if (!item.url) {
@@ -155,15 +168,47 @@ export function verificationServers(servers?: InterfaceServers[]): boolean {
   return true;
 }
 
+
+/**
+ * 验证config配置
+ *
+ * @export
+ * @param {InterfaceConfig} config
+ */
+export function verificationDefaultConfig(config: InterfaceConfig) {
+  const { controllers, filterFiles, outfile, requiredType } = config;
+
+  assert.equal(
+    !outfile || typeof (outfile),
+    'string',
+    '请正确填写yundoc.config.js中的outfile配置!'
+  )
+  assert.equal(
+    !controllers || (Array.isArray(controllers) && !controllers.length),
+    false,
+    '请正确填写yundoc.config.js中的controllers配置!'
+  )
+  assert.equal(
+    filterFiles && !Array.isArray(filterFiles),
+    false,
+    '请正确填写yundoc.config.js中的filterFiles配置, filterFiles必须为字符串数组!'
+  )
+  assert.equal(
+    typeof (requiredType) !== 'undefined' && !['typescript', 'routing-controllers'].includes(requiredType),
+    false,
+    '请正确填写yundoc.config.js中的requiredType配置有误!'
+  )
+}
+
 /**
  * 获得yundoc配置项
  *
  * @return {*}
  */
-export function getConfig(): InterfaceConfig {
-  let projectYundocConfig: AnyOpt = {};
+export function getConfig(option: AnyOpt = {}): InterfaceConfig {
+  let projectYundocConfig: AnyOpt = option;
   try {
-    projectYundocConfig = require(path.join(process.cwd(), './yundoc.config.js')) || {};
+    projectYundocConfig = require(path.join(process.cwd(), './yundoc.config.js'));
   } catch (err: any) {
     if (/Cannot.+find.+module.+yundoc\.config\.js/.test(err.details || err.message)) {
       console.warn(chalk.yellow(`没有：根目录/yundoc.config.js 文档配置文件（可忽略配置）`));
@@ -180,26 +225,7 @@ export function getConfig(): InterfaceConfig {
     delete defaultYundocConfig.controllers;
   }
 
-  const config = _.merge(defaultYundocConfig, projectYundocConfig);
-  const { controllers, filterFiles, outfile, requiredType } = config || {};
-
-  if (!outfile || typeof (outfile) !== "string") {
-    throw Error('请正确填写yundoc.config.js中的outfile配置！');
-  }
-
-  if (!controllers || (Array.isArray(controllers) && !controllers.length)) {
-    throw Error('请正确填写yundoc.config.js中的controllers配置！');
-  }
-
-  if (filterFiles && !Array.isArray(filterFiles)) {
-    throw Error('请正确填写yundoc.config.js中的filterFiles配置, filterFiles必须为字符串数组！');
-  }
-
-  if (typeof (requiredType) !== 'undefined' && !['typescript', 'routing-controllers'].includes(requiredType)) {
-    throw Error('请正确填写yundoc.config.js中的requiredType配置有误！');
-  }
-
-  return config;
+  return _.merge(defaultYundocConfig, projectYundocConfig);
 }
 
 /**

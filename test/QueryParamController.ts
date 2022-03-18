@@ -36,7 +36,7 @@ export default class QueryParamController {
   /**
    *
    *
-   * @param {(string|number)} simple1  注释1
+   * @param {(string|number)} [simple1=1]  注释1
    * @param {number[]} simple2
    * @param {((number|string)[])} simple3
    * @param {Array<number>} simple4
