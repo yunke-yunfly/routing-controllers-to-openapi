@@ -4764,10 +4764,10 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.6:
   resolved "https://registry.nlark.com/fast-levenshtein/download/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
-fast-typescript-to-jsonschema@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npmmirror.com/fast-typescript-to-jsonschema/-/fast-typescript-to-jsonschema-0.0.1.tgz#ffdcbc6084c0801dafde4331aeb6712aa8df8eb5"
-  integrity sha512-Hl9IxYnyVaPHn2RT7ZHqlQckelsZqeffQGe6QdHCeVcOxNo7NSLxgixc61v0Q4ZrGOBiVj5kMdukOD5CQcKTcg==
+fast-typescript-to-jsonschema@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.npmmirror.com/fast-typescript-to-jsonschema/-/fast-typescript-to-jsonschema-0.0.3.tgz#bd4cbe77d0c1cff64e7d3f85580f78aa8fe7a3e7"
+  integrity sha512-pjKR5qB0E95deq0qSJ656pOIyOX9+YyWg/EUAiv6UCIHc98KPO5gbAz3lyTWlkSK59+HcOkNxIy/VZJvEMGOpw==
   dependencies:
     "@babel/parser" "^7.14.7"
     "@babel/traverse" "^7.14.7"
