@@ -394,10 +394,7 @@ export function handleParamTypes(path: AnyOpt, file: string): ParamTypesConfig[]
       'UploadedFiles',
     ];
 
-    console.log('333333333333333333',param)
-
     if (paramsArr.includes(param.decoratorType) || _.get(param, 'schema.$ref')) {
-      console.log('1111111111111111111',param)
       // 复杂类型
       if (!param.schema) {
          /* istanbul ignore next */
@@ -476,9 +473,6 @@ export function handleParamTypes(path: AnyOpt, file: string): ParamTypesConfig[]
       _.get(param, 'schema.allOf') //  交叉类型
     ) {
       let currentStr = '';
-
-      console.log('2222222222222222',param)
-
       if (_.get(param, 'schema.anyOf')) {
         currentStr = '联合';
       } else if (_.get(param, 'schema.allOf')) {
