@@ -4,7 +4,7 @@ interface AAA {
 }
 
 interface BBB {
-  ccc: string;
+  ccc?: string;
 }
 
 interface CCC {
@@ -25,6 +25,7 @@ export enum Label {
  */
 @JsonController('/body')
 export default class BodyController {
+
   @Post('/test')
   async jest(
     @Body('simple18') simple18: any,
@@ -50,4 +51,34 @@ export default class BodyController {
   ): Promise<{ name: string }> {
     return name || 'success';
   }
+
+
+  /**
+   * body默认值
+   *
+   * @param {string} [name=zane] 姓名
+   * @return {*}  {Promise<{ name: string }>}
+   * @memberof BodyController
+   */
+  @Post('/test/default-value')
+  async defaultValue(
+    @BodyParam('name') name?: string,
+  ): Promise<string> {
+    return 'success';
+  }
+
+  /**
+   * body为interface
+   *
+   * @param {Label} body
+   * @return {*}  {Promise<string>}
+   * @memberof BodyController
+   */
+  @Post('/test/body')
+  async onlyBody(
+    @Body() body?: BBB,
+  ): Promise<string> {
+    return 'success';
+  }
+
 }

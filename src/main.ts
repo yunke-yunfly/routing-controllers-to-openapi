@@ -34,7 +34,6 @@ export async function genOpenapiv3FromRoutingControllers(options: AnyOption = {}
   verificationDefaultConfig(config);
 
   const { routePrefix, controllers, responseSchema, servers, filterFiles, outfile, requiredType } = config;
-
   // responseSchema 参数校验
   verificationResponseSchema(responseSchema);
   // servers 参数验证
@@ -214,6 +213,7 @@ export function getConfig(option: AnyOpt = {}): InterfaceConfig {
       console.warn(chalk.yellow(`没有：根目录/yundoc.config.js 文档配置文件（可忽略配置）`));
     }
     else {
+      /* istanbul ignore next */
       throw err;
     }
   }

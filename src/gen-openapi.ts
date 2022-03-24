@@ -103,7 +103,7 @@ function genInfo(): Openapiv3Info {
  * @param {TraverseAstConfig[]} paths
  * @return {*}  {Openapiv3Tags[]}
  */
-function genTags(paths: TraverseAstConfig[]): Openapiv3Tags[] {
+export function genTags(paths: TraverseAstConfig[]): Openapiv3Tags[] {
   if (!paths || !paths.length) {
     return [];
   }
@@ -130,7 +130,7 @@ function genTags(paths: TraverseAstConfig[]): Openapiv3Tags[] {
  * @param {TraverseAstConfig[]} data
  * @return {*}  {Openapiv3Paths}
  */
-function genPaths(
+export function genPaths(
   data: TraverseAstConfig[],
   routePrefix?: string,
   responseSchema?: InterfaceSchema,
@@ -227,6 +227,7 @@ function genPathParameters(
   pathParameters.forEach((next: AnyOpt) => {
     // 忽略any,never 等不知道类型的字段
     if (!_.get(next, 'schema') || !Object.keys(_.get(next, 'schema')).length) {
+      /* istanbul ignore next */
       return;
     }
 
@@ -430,7 +431,7 @@ function functionParamsCommonHandle(parames: AnyOpt): { schema: Openapiv3Paramet
  * @param {AnyOpt} schema
  * @return {*}  {AnyOpt}
  */
-function handleSchema(schemas: AnyOpt): {
+export function handleSchema(schemas: AnyOpt): {
   schemas: AnyOpt;
   componentSchemas: Openapiv3SchemasConfig;
 } {

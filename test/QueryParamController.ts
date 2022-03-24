@@ -73,8 +73,31 @@ export default class QueryParamController {
     @QueryParam('simple13') simple13: Array<Label | BBB>,
     @QueryParam('simple14') simple14: string,
     @QueryParam('simple16') simple16: any,
-    @QueryParam('simple17') simple17: never,
+    @QueryParam('sivmple17') simple17: never,
   ): Promise<{ name: string }> {
     return name || 'success';
   }
+
+  @Get('/queryparam/jest1')
+  async jest1(
+    @QueryParam() params: any
+  ): Promise<string> {
+    return 'success';
+  }
+
+  @Get('/queryparam/enum')
+  async jest2(
+    @QueryParam() param1: CCC,
+    @QueryParam() param2: Label
+  ): Promise<string> {
+    return 'success';
+  }
+
+  @Get('/queryparam/QueryParams')
+  async jest3(
+    @QueryParams() param: string,
+  ): Promise<string> {
+    return 'success';
+  }
+
 }
