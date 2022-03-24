@@ -78,7 +78,7 @@
     "@apidevtools/swagger-parser": "^10.0.2",
     "chalk": "^4.1.1",
     "commander": "7.2.0",
-    "fast-typescript-to-jsonschema": "^0.0.1",
+    "fast-typescript-to-jsonschema": "^0.0.3",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
     "lodash": "^4.17.21"
