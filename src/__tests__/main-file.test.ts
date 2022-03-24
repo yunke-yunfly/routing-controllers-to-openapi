@@ -7,7 +7,6 @@ import {
   verificationResponseSchema,
   verificationServers,
   genOpenapiv3Files,
-  verificationDefaultConfig
 } from '../main';
 import { openapiValidate } from '../index';
 const fs = require('fs-extra')
@@ -15,6 +14,7 @@ const fs = require('fs-extra')
 beforeAll(() => {
   // Clears the database and adds some testing data.
   // Jest will wait for this promise to resolve before running tests.
+  console.log = console.error = console.warn = () => { };
   process.env.TEST_ENV = 'test';
 });
 
@@ -49,7 +49,6 @@ test('responseSchema正常测试', async () => {
         },
         message: {
           type: 'string',
-
           description: '描述信息',
         },
       },
@@ -197,7 +196,7 @@ test('responseSchema.servers.item url字段为真，但值不为字符串', asyn
   ).toThrow(Error);
 });
 
-getFilesFromControllersConfig
+// getFilesFromControllersConfig
 test('responseSchema.controllers 正常空字段', async () => {
   const file = path.join(__dirname, '../../test/**/*_Controller.ts');
   const paths = await getFilesFromControllersConfig(file);
@@ -230,16 +229,4 @@ test('test controllers gen openapi.', async () => {
   const { isCheck } = await genOpenapiv3FromRoutingControllers()
   expect(isCheck).toBe(true);
 });
-
-test('test yundoc.config.js controllers', async () => {
-  let outfile = path.join(__dirname, '../../openapi/test-openapiv3.json')
-  expect(() => {
-    verificationDefaultConfig({
-      outfile,
-      controllers: []
-    })
-  }).toThrowError(/请正确填写yundoc\.config\.js/);
-
-});
-
 

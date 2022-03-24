@@ -158,5 +158,5 @@ export interface InterfaceServers {
 export interface DynamicRoutingConfig {
   isDynamicRouting: boolean;
   path: string;
-  dynamicKey?: string[];
+  dynamicKey?: string;
 }

@@ -77,27 +77,4 @@ export default class QueryParamController {
   ): Promise<{ name: string }> {
     return name || 'success';
   }
-
-  @Get('/queryparam/jest1')
-  async jest1(
-    @QueryParam() params: any
-  ): Promise<string> {
-    return 'success';
-  }
-
-  @Get('/queryparam/enum')
-  async jest2(
-    @QueryParam() param1: CCC,
-    @QueryParam() param2: Label
-  ): Promise<string> {
-    return 'success';
-  }
-
-  @Get('/queryparam/QueryParams')
-  async jest3(
-    @QueryParams() param: string,
-  ): Promise<string> {
-    return 'success';
-  }
-
 }
