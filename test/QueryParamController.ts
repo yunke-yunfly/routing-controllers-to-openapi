@@ -73,7 +73,7 @@ export default class QueryParamController {
     @QueryParam('simple13') simple13: Array<Label | BBB>,
     @QueryParam('simple14') simple14: string,
     @QueryParam('simple16') simple16: any,
-    @QueryParam('sivmple17') simple17: never,
+    @QueryParam('simple17') simple17: never,
   ): Promise<{ name: string }> {
     return name || 'success';
   }
