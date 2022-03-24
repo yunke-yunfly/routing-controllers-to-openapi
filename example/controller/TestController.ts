@@ -6,6 +6,16 @@ export interface Response {
   message: string;
 }
 
+export enum Label {
+  LABEL_OPTIONAL = 1,
+  LABEL_REQUIRED = 2,
+  LABEL_REPEATED = 3,
+}
+
+interface Aaa {
+  code: 'a' | 'b';
+}
+
 /**
  * 测试案例controller
  *
@@ -23,11 +33,9 @@ export default class ExampleController {
    * @returns {Promise<Response>}
    * @memberof ExampleController
    */
-  @Post('/test')
+  @Post('/test/:id/:name')
   async getTest(
-    @HeaderParam('orgcode') orgcode: string,
-    @BodyParam('name') name: string,
-    @BodyParam('age') age: number,
+    @BodyParam('params') params: { name: string, age: Aaa },
   ): Promise<Response> {
     return {
       code: 0,

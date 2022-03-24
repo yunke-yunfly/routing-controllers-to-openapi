@@ -5,7 +5,7 @@ import { genTsApiDoc, getAst, openapiValidate } from '../index';
 beforeAll(() => {
   // Clears the database and adds some testing data.
   // Jest will wait for this promise to resolve before running tests.
-  console.log = console.error = console.warn = () => {};
+  process.env.REQUIRE_TYPE = 'routing-controllers';
 });
 
 test('ast生成', async () => {

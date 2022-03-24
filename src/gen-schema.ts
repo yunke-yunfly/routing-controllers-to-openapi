@@ -161,6 +161,7 @@ function classMethod(path: AnyOpt, json: AnyOpt, requiredType: RequiredType, fil
     if (!allowMethod.includes(method)) {
       return prev;
     }
+
     let {
       isDynamicRouting,
       dynamicKey,
@@ -168,15 +169,17 @@ function classMethod(path: AnyOpt, json: AnyOpt, requiredType: RequiredType, fil
     } = handleRouterPath(_.get(item, 'node.expression.arguments[0].value'));
 
     // 动态路由参数处理
-    if (isDynamicRouting && dynamicKey) {
-      pathParams.push({
-        name: dynamicKey,
-        name_: dynamicKey,
-        schema: { type: 'string' },
-        required: true,
-        in: 'path',
-        decoratorType: 'Param',
-      });
+    if (isDynamicRouting && dynamicKey?.length) {
+      dynamicKey.forEach((item: string) => {
+        pathParams.push({
+          name: item,
+          name_: item,
+          schema: { type: 'string' },
+          required: true,
+          in: 'path',
+          decoratorType: 'Param',
+        });
+      })
     }
 
     // 拼接controller级别router前缀
@@ -259,7 +262,7 @@ function classMethod(path: AnyOpt, json: AnyOpt, requiredType: RequiredType, fil
     // 解析routing-controllers {required: true} 参数是否必填
     let requiredArguments: null | AnyOpt = null;
     decoratorArguments.forEach((item: AnyOpt) => { if (item.type === 'ObjectExpression') requiredArguments = item; })
-    if (requiredArguments && requiredType === 'routing-controllers') {
+    if (requiredArguments && (process.env.REQUIRE_TYPE || requiredType === 'routing-controllers')) {
       const objectItem: AnyOpt[] = _.get(requiredArguments, 'properties') || [];
       // 参数是否必填
       objectItem.map((item: AnyOpt) => {
@@ -295,7 +298,7 @@ function classMethod(path: AnyOpt, json: AnyOpt, requiredType: RequiredType, fil
   }, []);
 
   // 合并动态路由参数
-  if (useDynamicRoutingKeys.length < pathParams.length) {
+  if (useDynamicRoutingKeys.length <= pathParams.length) {
     if (!useDynamicRoutingKeys.length) {
       parameters.push(...pathParams);
     } else {
@@ -354,12 +357,12 @@ function handleRouterPath(path: string = ''): DynamicRoutingConfig {
   const result: DynamicRoutingConfig = {
     isDynamicRouting: false,
     path,
-    dynamicKey: '',
+    dynamicKey: [],
   };
 
   result.path = path.replace(/:([a-zA-Z0-9_-]+)/g, ($1, $2) => {
     result.isDynamicRouting = true;
-    result.dynamicKey = $2;
+    result.dynamicKey?.push($2);
     return `{${$2}}`;
   });
 
@@ -392,8 +395,9 @@ export function handleParamTypes(path: AnyOpt, file: string): ParamTypesConfig[]
     ];
 
     if (paramsArr.includes(param.decoratorType) || _.get(param, 'schema.$ref')) {
-      // 复核类型
+      // 复杂类型
       if (!param.schema) {
+         /* istanbul ignore next */
         param.schema = {};
       } else if (typeof param.schema === 'object' && param.schema.$ref) {
         const type = param.schema.$ref.replace('#', '');
@@ -432,6 +436,7 @@ export function handleParamTypes(path: AnyOpt, file: string): ParamTypesConfig[]
           if (paramsArr.includes(param.decoratorType)) {
             useStr = '接口';
           } else {
+            /* istanbul ignore next */
             useStr = '基础';
           }
           if (currentStr && useStr) {
@@ -468,16 +473,16 @@ export function handleParamTypes(path: AnyOpt, file: string): ParamTypesConfig[]
       _.get(param, 'schema.allOf') //  交叉类型
     ) {
       let currentStr = '';
-
       if (_.get(param, 'schema.anyOf')) {
         currentStr = '联合';
       } else if (_.get(param, 'schema.allOf')) {
         currentStr = '交叉';
       } else if (_.get(param, 'schema.type') === 'array') {
         currentStr = '数组';
-      } else if (_.get(param, 'schema.type') === 'object' && _.get(param, 'schema.parameters')) {
+      } else if (_.get(param, 'schema.type') === 'object' && _.get(param, 'schema.properties')) {
         currentStr = '接口';
       } else if (_.get(param, 'schema.enum')) {
+        /* istanbul ignore next */
         currentStr = '枚举';
       }
 
@@ -634,7 +639,7 @@ export function handleReturnType(path: AnyOpt, file: string): AnyOpt {
   // 处理简单类型
   if (
     returnTypeSchema.type &&
-    returnTypeSchema.type !=='object' &&
+    returnTypeSchema.type !== 'object' &&
     returnTypeSchema.type !== 'array'
   ) {
     return returnTypeSchema;

@@ -25,6 +25,7 @@ export enum Label {
  */
 @JsonController('/bodyparam')
 export default class BodyParamController {
+  
   @Post('/jest')
   async jest(
     // 参数注释1
@@ -45,6 +46,7 @@ export default class BodyParamController {
     @BodyParam('simple13') simple13: Array<Label | BBB>,
     @BodyParam('simple16') simple16: BBB & CCC,
     @BodyParam('simple17') simple17: string,
+    @BodyParam('params') params: {name: string},
   ): Promise<{ name: string }> {
     return name || 'success';
   }
