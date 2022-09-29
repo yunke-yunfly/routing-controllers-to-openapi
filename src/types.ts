@@ -117,6 +117,7 @@ export interface TraverseAstConfig {
   paths: AnyOpt[];
   controllerPrefix?: string;
   description?: string;
+  description_?: string;
 }
 
 export interface GenOpenApiOption {
