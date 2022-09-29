@@ -49,7 +49,9 @@
     "ZZSMY",
     "coontrollers",
     "memberof",
-    "codecov"
+    "codecov",
+    "ABCDEFGHJKMNPQRSTWXY",
+    "Zabcdefhijkmnprstwxyz"
   ],
   "ignorePaths": [
     "package.json",
