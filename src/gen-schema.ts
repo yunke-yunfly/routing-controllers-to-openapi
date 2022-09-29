@@ -397,7 +397,7 @@ export function handleParamTypes(path: AnyOpt, file: string): ParamTypesConfig[]
     if (paramsArr.includes(param.decoratorType) || _.get(param, 'schema.$ref')) {
       // 复杂类型
       if (!param.schema) {
-         /* istanbul ignore next */
+        /* istanbul ignore next */
         param.schema = {};
       } else if (typeof param.schema === 'object' && param.schema.$ref) {
         const type = param.schema.$ref.replace('#', '');
@@ -563,6 +563,11 @@ export function handleMethodDesc(path: AnyOpt): AnyOpt {
   // 函数注释
   if (_.get(methodDescription, 'description')) {
     path.description = _.get(methodDescription, 'description');
+  }
+
+  // 函数备注
+  if (_.get(methodDescription, 'description_')) {
+    path.description_ = _.get(methodDescription, 'description_');
   }
 
   if (!parameters || !parameters.length) {

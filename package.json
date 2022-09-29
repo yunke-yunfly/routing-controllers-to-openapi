@@ -1,6 +1,6 @@
 {
   "name": "routing-controllers-to-openapi",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": "https://github.com/yunke-yunfly/routing-controllers-to-openapi",
@@ -78,7 +78,7 @@
     "@apidevtools/swagger-parser": "^10.0.2",
     "chalk": "^4.1.1",
     "commander": "7.2.0",
-    "fast-typescript-to-jsonschema": "^0.0.3",
+    "fast-typescript-to-jsonschema": "^0.0.6",
     "fs-extra": "^10.0.0",
     "glob": "^7.2.0",
     "lodash": "^4.17.21"

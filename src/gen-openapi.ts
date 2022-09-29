@@ -34,10 +34,10 @@ export function openapiValidate(openapi: Openapiv3Config): Promise<boolean> {
   return new Promise((resolve: any) => {
     SwaggerParser.validate(openapi, (err: any, api: Openapiv3Config) => {
       if (err) {
-        if(!process.env.JEST) console.error('\n', chalk.red(err.message), '\n');
+        if (!process.env.JEST) console.error('\n', chalk.red(err.message), '\n');
         resolve(false);
       } else {
-        if(!process.env.JEST) console.info(
+        if (!process.env.JEST) console.info(
           chalk.green('\n Openapi data validation passed! \n API name: %s, Openapi Version: %s.'),
           api.info.title,
           api.openapi,
@@ -61,6 +61,7 @@ export function genOpenapiv3(
   const { routePrefix, servers, responseSchema } = option as GenOpenApiOption;
   const info = genInfo();
   const tags = genTags(data);
+
   const { paths, schemas } = genPaths(data, routePrefix, responseSchema);
 
   // openapiv3
@@ -156,7 +157,7 @@ export function genPaths(
         const methodJson: MethodConfig = {
           tags: [next.className],
           summary: itemPath.description || childItemPath.operationId || '',
-          description: `${next.className}.${childItemPath.operationId} ${next.description} `,
+          description: itemPath.description_ || `${next.className}.${childItemPath.operationId} ${next.description} `,
           operationId: `${next.className}.${method}.${childItemPath.operationId}.${randomString(10)}`,
           responses,
         };
