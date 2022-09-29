@@ -677,7 +677,25 @@ async getUserInfo(
 ): Promise<{name: string}> {}
 ```
 
-### 5. 注释优先级说明
+### 5. 块级注释 method 描述支持
+
+```ts
+// -----简单注释----------
+
+/**
+ * 获得用户信息（方法名注释）
+ * @description 方法级别的描述信息
+ * @param {string} name 姓名
+ * @param {number} age 年龄
+ */
+@Get('/test')
+async getUserInfo(
+    @QueryParam("name") name: string,
+    @QueryParam("age") age: number,
+): Promise<{name: string}> {}
+```
+
+### 6. 注释优先级说明
 
 interface注释  > 函数顶部注释 > 方法行内注释
 
@@ -1558,13 +1576,9 @@ async test(
 <br/>
 <br/>
 
-
-##  更多的Ts类型解析 
+## 更多的Ts类型解析
 
 参考：[`fast-typescript-to-jsonschema`](https://github.com/yunke-yunfly/fast-typescript-to-jsonschema)
 
 <br/>
 <br/>
-
-
-
