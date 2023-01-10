@@ -19,7 +19,7 @@ export default class {
     @QueryParam('simple3') simple3: boolean,
     @QueryParam('simple4') simple4: any,
     @QueryParam('simple5', { required: true }) simple5: never,
-    @QueryParam('simple6') simple6: {name: string},
+    @QueryParam('simple6') simple6: { name: string },
     @Param('id', { required: true }) id: number,
     @UseMetadata() metadata: any,
   ): Promise<{ name: string }> {
@@ -44,6 +44,7 @@ export default class {
 
   /**
    * do something
+   * @description 测试函数备注信息
    *
    * @param {string} orgcode 租户号
    * @param {string} name 姓名
