@@ -1,6 +1,5 @@
 import * as path from 'path';
 import * as _ from 'lodash';
-import { randomString } from './util';
 // types
 import type {
   AnyOpt,
@@ -111,13 +110,14 @@ export function genTags(paths: TraverseAstConfig[]): Openapiv3Tags[] {
   const cache: Record<string, number> = {};
 
   return paths.reduce((prev: Openapiv3Tags[], path: TraverseAstConfig) => {
-    if (!cache[path.className] && path.className) {
-      cache[path.className] = 1;
+    const tag = path.description || path.className;
+    if (!cache[tag] && tag) {
+      cache[tag] = 1;
       return [
         ...prev,
         {
-          name: path.className,
-          description: path.description,
+          name: tag,
+          description: path.className,
         },
       ];
     }
@@ -154,11 +154,12 @@ export function genPaths(
       // 处理路由
       const res = (itemPath.paths || []).reduce((childPrevPath: AnyOpt, childItemPath: AnyOpt) => {
         const method = (childItemPath.method || '').toLowerCase();
+        const tag = next.description || next.className;
         const methodJson: MethodConfig = {
-          tags: [next.className],
+          tags: [tag],
           summary: itemPath.description || childItemPath.operationId || '',
           description: itemPath.description_ || `${next.className}.${childItemPath.operationId} ${next.description} `,
-          operationId: `${next.className}.${method}.${childItemPath.operationId}.${randomString(10)}`,
+          operationId: `${next.className}_${childItemPath.operationId}_${method}${childItemPath.routerPath.replace(/\//g, '_')}`,
           responses,
         };
         if (parameters.length) methodJson.parameters = parameters;
