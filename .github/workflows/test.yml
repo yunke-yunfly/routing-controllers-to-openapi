@@ -1,0 +1,25 @@
+name: Lint Test and Codecov
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - run: yarn --frozen-lockfile
+      - name: Lint
+        run: yarn lint:all
+      - name: SpellCheck
+        run: yarn spell-check:all
+      - name: Test
+        run: yarn test:coverage
+      - name: Codecov
+        env:
+         CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+        run: yarn send-coverage

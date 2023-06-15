@@ -1,0 +1,86 @@
+{
+  "name": "routing-controllers-to-openapi",
+  "version": "0.0.7",
+  "main": "./dist/index.js",
+  "typings": "dist/index.d.ts",
+  "repository": "https://github.com/yunke-yunfly/routing-controllers-to-openapi",
+  "author": "zane <wangw19@mingyuanyun.com>",
+  "description": "Buildtime OpenAPI v3 spec generation for routing-controllers.",
+  "bin": {
+    "gen-openapi": "./bin/index.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "openapi",
+    "openapiv3",
+    "jsonschema",
+    "routing-controllers",
+    "nest"
+  ],
+  "scripts": {
+    "build": "gts clean && tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "test": "cross-env TEST_ENV=test JEST=true umi-test",
+    "test:watch": "cross-env TEST_ENV=test JEST=true umi-test --watch",
+    "test:coverage": "cross-env TEST_ENV=test umi-test --coverage",
+    "send-coverage": "cross-env codecov -f coverage/*.json",
+    "ci": "yarn tsc --noEmit && yarn lint:all && yarn spell-check:all && yarn test",
+    "lint:all": "yarn eslint --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "spell-check:all": "cspell \"**/*.{txt,ts,tsx,js,md}\"",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\"",
+    "example": "cross-env TEST_ENV=test node ./example/test.js"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,md,json}": [
+      "prettier --write",
+      "cspell"
+    ],
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix --format=pretty "
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-angular": "^12.1.4",
+    "@types/doctrine": "^0.0.4",
+    "@types/jest": "^26.0.24",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^16.0.0",
+    "@umijs/fabric": "^2.6.2",
+    "@umijs/test": "^3.5.4",
+    "codecov": "^3.8.3",
+    "conventional-changelog-cli": "^2.1.1",
+    "cross-env": "^7.0.3",
+    "cspell": "^5.6.6",
+    "gts": "^3.1.0",
+    "husky": "4.3.8",
+    "lint-staged": "10.5.4",
+    "prettier": "^2.3.2",
+    "prettier-plugin-jsdoc": "^0.3.23",
+    "prettier-plugin-sorted": "^2.0.0",
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.0.2",
+    "chalk": "^4.1.1",
+    "commander": "7.2.0",
+    "fast-typescript-to-jsonschema": "^0.0.6",
+    "fs-extra": "^10.0.0",
+    "glob": "^7.2.0",
+    "lodash": "^4.17.21"
+  }
+}
